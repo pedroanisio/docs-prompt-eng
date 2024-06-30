@@ -1,6 +1,23 @@
 # Manual for Creating AI Agents Based on Specified Syntax
-
-# Introduction
+## Index
+- Indtroduction
+- Syntax Inspiration
+- The Message Container
+  - Message
+    - Types of Message
+  - Payload
+    - Types of Payload
+      - Agent Payload Details
+        - Request Format
+        - Response Format
+      - Run Loop Payload Details
+- Special Words 
+  - Detailed Explanations
+- Status Codes
+   - Success (Status 200)
+   - Error (Status 400)
+  
+## Introduction
 
 This manual provides step-by-step instructions on how to create AI agents using a specific YAML-based syntax. The agent's primary purpose is to process input data and generate valuable information based on predefined rules and processing types.
 
@@ -14,6 +31,8 @@ The syntax used for configuring AI agents is inspired by:
 
 ## The Message Container
 
+Messages are the main building blocks that define the behavior and processing logic of the agent.
+
 ```yaml
 messages:
   - id: 001
@@ -22,12 +41,9 @@ messages:
   - id: 002
     type: run_loop
     payload: ...
-
 ```
 
-### Messages and Message Types
-
-Messages are the main building blocks that define the behavior and processing logic of the agent.
+### Message
 
 In the agent configuration, the `messages` array is an essential part of defining the behavior and processing logic of the AI agent. Each entry in the `messages` array is an object that contains three properties: `id`, `type`, and `payload`.
 
@@ -35,14 +51,23 @@ In the agent configuration, the `messages` array is an essential part of definin
 2. **type**: This property specifies the role of the message. For instance, a 'system' type refers to a message that defines the core configuration of the agent, and a 'run_loop' type refers to messages that specify the logic to handle different input scenarios.
 3. **payload**: This contains the actual content or data of the message, which can be of different forms based on the message type.
 
-## Message Types
+#### Types of Message
 
-System messages define the core configuration of the agent, including its mission, processing methods, core rules, and response structure. These messages establish the foundational setup and the guiding principles for the agent's operations.
+- **system** messages define the core configuration of the agent, including its directive, processing methods, core rules, and response structure. These messages establish the foundational setup and the guiding principles for the agent's operations.
+- **run_loop** messages specify the logic to handle different input scenarios and control the flow of execution. They define how the agent should react to various inputs, managing the sequence of operations and decision-making processes.
 
-### Agent Payload
+### Payload
 
-**Key Components**
+The payload is the actual message and must conform to the appropriate payload format for each message type. The following payload can be utilized:
 
+#### Types of Payload
+
+- **agent** - payload responsable to build the faundations of the AI Agent.
+- **run_loop** - payload that specify the execution loop of the AI Agent.
+
+##### Agent Paylod Details
+
+- **type: agent**
 - **name**: The name of the agent.
 - **directive**: A brief description of the agent's purpose.
 - **skills**: Methods available to the agent with visibility attributes (public or private).
@@ -99,19 +124,18 @@ payload:
             presence: mandatory
 
 ```
-
-### Request Format
+###### Request Format
 
 - **format**: Specifies how the agent expects the named request.
 
-### Response Format
+###### Response Format
 
 - **meta**: Information about other information, such as keywords and descriptions.
 - **exec**: Calls upon any available processing method.
 - **constraint**: A restriction or limitation that can prevent progress or the achievement of an objective.
 - **presence**: Specifies whether the section is mandatory or optional.
 
-### Run Loop Messages
+##### Run Loop Payload Details
 
 **Run loop** messages specify the logic to handle different input scenarios and control the flow of execution. They define how the agent should react to various inputs, managing the sequence of operations and decision-making processes.
 
@@ -136,8 +160,7 @@ payload:
           ]
 
 ```
-
-### Especial Words
+## Especial Words
 
 | Term | Explanation |
 | --- | --- |
@@ -165,23 +188,15 @@ payload:
     - *Explanation*: A structured format in which the user provides input to the AI agent.
     - *Example*: A text input in a defined format, such as `TEXT="""<content>"""`.
 
-## Use of Status Codes
+## Status Codes
 
-The use of HTTP status codes in AI agent configuration is inspired by the standardized communication protocol used in web development. These codes provide a consistent way to communicate the outcome of a request or transaction.
-
-### HTTP Status Codes
-
-HTTP status codes are standardized codes returned by servers to indicate the result of a client's request. They are divided into five categories:
+In the context of the agent configuration described, status codes are used to indicate the outcome of processing the input request. They are divided into five categories:
 
 1. **1xx (Informational)**: The request was received, continuing the process.
 2. **2xx (Success)**: The request was successfully received, understood, and accepted.
 3. **3xx (Redirection)**: Further action needs to be taken to complete the request.
 4. **4xx (Client Error)**: The request contains bad syntax or cannot be fulfilled.
 5. **5xx (Server Error)**: The server failed to fulfill a valid request.
-
-### Status Codes in the Agent Configuration
-
-In the context of the agent configuration described, status codes are used to indicate the outcome of processing the input request.
 
 ### Success (Status 200)
 
